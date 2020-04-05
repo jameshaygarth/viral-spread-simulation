@@ -13,6 +13,7 @@ import gc
 import cv2
 import glob
 import os
+import pandas as pd
 
 
 
@@ -152,14 +153,6 @@ class person:
             self.y=0
             
             
-       
-        
-        
-        
-        
-        
-        
-        
             
         
     def boundary_check(self,x_start=0,x_finnish=1000,y_start=0,y_finnish=1000):
@@ -302,6 +295,27 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     #creating folder to store the pictures
     # Create directory
     
+    root_dirName = 'C:/'+'corona simulation'
+     
+    try:
+        # Create target Directory
+        os.mkdir(root_dirName)
+        print("Directory " , root_dirName ,  " Created ") 
+    except FileExistsError:
+        print("Directory " , root_dirName ,  " already exists")
+        
+        
+    infection_images_dirName=root_dirName+"/infected_people images"
+    
+    try:
+        # Create target Directory
+        os.mkdir(infection_images_dirName)
+        print("Directory " , infection_images_dirName ,  " Created ") 
+    except FileExistsError:
+        print("Directory " , infection_images_dirName ,  " already exists")
+    
+    
+    
     dirName = 'C:/corona simulation/corona simulation '+simulation_number
      
     try:
@@ -311,6 +325,10 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     except FileExistsError:
         print("Directory " , dirName ,  " already exists")
         #input("press enter to continue")
+    
+    
+    
+    
     
     
     #creating people
@@ -326,6 +344,82 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     for inf in range(number_initialy_infected):
         people[inf].infect()
         
+   
+    ## creating the csv files
+    full_csv_file_location=dirName+"/full_csv_data"+simulation_number+".csv"
+    overview_csv_file_location=dirName+"/overview_csv_data"+simulation_number+".csv"
+    parameter_log_csv_location=dirName+"/parameter_log_csv_data"+simulation_number+".csv"
+    
+    full_simulation_csv=open(full_csv_file_location,"w")
+    overview_simulation_csv=open(overview_csv_file_location,"w")
+    parameter_log_csv=open(parameter_log_csv_location,"w")
+    full_simulation_csv.close()
+    overview_simulation_csv.close()
+    parameter_log_csv.close()
+    
+    
+    parameter_log_csv=open(parameter_log_csv_location,"a")
+    parameter_log_csv_string=""
+    parameter_log_csv_string+="simulation_number,number_of_people,chance_of_shops,chance_of_isolation,number_initialy_infected,people_speed,infection_radius,time_after_last_infected,time_step,time_duration,space_size\n"
+    
+    
+    parameter_log_list=[simulation_number,number_of_people,chance_of_shops,chance_of_isolation,number_initialy_infected,people_speed,infection_radius,time_after_last_infected,time_step,time_duration,space_size]
+    for parameters_index in range(len(parameter_log_list)):
+        if (parameters_index+1)==len(parameter_log_list):
+            parameter_log_csv_string+=str(parameter_log_list[parameters_index])+"\n"
+            
+        else:
+            parameter_log_csv_string+=str(parameter_log_list[parameters_index])+","
+    
+        
+    parameter_log_csv.write(parameter_log_csv_string)
+    parameter_log_csv.close()
+    parameter_log_csv_string=""
+    
+    
+    ##creating the csv headers full
+    csv_full_header_string=""
+    csv_overview_header_string=""
+    
+    for j in range(len(people)):
+        #people[j].loop()
+        person_x_string="x"+str(j)+","
+        person_y_string="y"+str(j)+","
+        person_condition_string="condition"+str(j)+","
+        
+        csv_full_header_string+=person_x_string
+        csv_full_header_string+=person_y_string
+        csv_full_header_string+=person_condition_string
+        
+        
+    
+    pop_immune_string="immune,"
+    pop_infected_string="infected,"
+    pop_unaffected_string="unaffected\n"
+    
+    csv_full_header_string+=pop_immune_string
+    csv_full_header_string+=pop_infected_string
+    csv_full_header_string+=pop_unaffected_string
+    
+    csv_overview_header_string=pop_immune_string+pop_infected_string+pop_unaffected_string
+    
+    print(csv_overview_header_string)
+    
+    full_simulation_csv=open(full_csv_file_location,"a")
+    full_simulation_csv.write(csv_full_header_string)
+    full_simulation_csv.close()
+    
+    
+
+    overview_simulation_csv=open(overview_csv_file_location,"a")
+    overview_simulation_csv.write(csv_overview_header_string)
+    overview_simulation_csv.close()
+    
+    
+    csv_full_header_string=csv_overview_header_string=""#emptying the variables to free memory
+    
+    
+    
     
     
     
@@ -344,12 +438,13 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
             if time_after_last_infected<=0:
                 break
             
-        fig=plt.figure()
+        
         
         if max_people_infected<person.infected:
             max_people_infected=person.infected
         
-    
+        """
+        fig=plt.figure()
         ax=fig.add_subplot(2,2,1)
         ax2=fig.add_subplot(2,2,3)
         ax3=fig.add_subplot(2,2,2)
@@ -368,14 +463,55 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         rect2 = patches.Rectangle((0,0),110,110,linewidth=1,edgecolor='r',facecolor='none')
         ax.add_patch(rect)
         ax.add_patch(rect2)
+        """
         
         print(i)
+        csv_full_entry_string=""
+        csv_overview_entry_string=""
         
         for j in range(len(people)):
             
             people[j].loop()
             
-            ax.plot(people[j].x,people[j].y,marker=".",color=people[j].condition,markersize=1)
+            person_x_string=str(people[j].x)+","
+            person_y_string=str(people[j].y)+","
+            person_condition_string=str(people[j].condition)+","
+            
+            csv_full_entry_string+=person_x_string
+            csv_full_entry_string+=person_y_string
+            csv_full_entry_string+=person_condition_string
+            
+            #ax.plot(people[j].x,people[j].y,marker=".",color=people[j].condition,markersize=1)
+            
+        
+            
+        pop_immune_string=str(person.immune)+","
+        pop_infected_string=str(person.infected)+","
+        pop_unaffected_string=str(person.people-(person.infected+person.immune))+"\n"
+        
+        csv_full_entry_string+=pop_immune_string
+        csv_full_entry_string+=pop_infected_string
+        csv_full_entry_string+=pop_unaffected_string
+        
+        csv_overview_entry_string+=pop_immune_string
+        csv_overview_entry_string+=pop_infected_string
+        csv_overview_entry_string+=pop_unaffected_string
+        
+        
+        full_simulation_csv=open(full_csv_file_location,"a")
+        full_simulation_csv.write(csv_full_entry_string)
+        full_simulation_csv.close()
+    
+    
+
+        overview_simulation_csv=open(overview_csv_file_location,"a")
+        overview_simulation_csv.write(csv_overview_entry_string)
+        overview_simulation_csv.close()
+        
+        
+        
+        #full_simulation_csv.write(csv_full_entry_string)
+        #overview_simulation_csv.write(csv_overview_entry_string)
             
             
         #print("There are {}, {} are infected and {} are immune.".format(person.people,person.infected,person.immune) )
@@ -386,7 +522,8 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         infected_people.append(person.infected)
         immune_people.append(person.immune)
         non_immune.append(person.people-(person.infected+person.immune))
-            
+        
+        """  
         ax2.plot(itteration_number,infected_people,"-g")
         
         ax3.plot(itteration_number,immune_people,"-g",label='Immune people')
@@ -459,7 +596,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         fig.clf()
         gc.collect()
         plt.show()
-        
+        """
                 
             #calculating infection
         for k in range(len(people)):
@@ -480,8 +617,22 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
                     
                 
         
-        
+    
+                
     print("finnished simulation")
+    
+    df=pd.read_csv(overview_csv_file_location)
+    #print(df)
+    df2=df["infected"]
+    #print(df2)
+    df2.plot()
+    plt.title("Simmultaniosly Infected People\n Over Time - test "+str(simulation_number))
+    plt.ylabel("Infected People")
+    plt.xlabel("itteration")
+    figure_name=infection_images_dirName+"/infected "+simulation_number+".png"
+    plt.savefig(figure_name,dpi=600)#300
+    
+    
     
     
      
@@ -499,14 +650,14 @@ def virus_simulation_paralell(simulation_number_in,chance_of_isolation):
 
 
 
-"""
+
 
 if __name__ == "__main__": 
     
     import multiprocessing as mp
     
     
-    simulation_number_start=103
+    simulation_number_start=35
     prosesses_to_be_preformed=[]
     
     for i in range(10):
@@ -538,18 +689,52 @@ if __name__ == "__main__":
 #creating _root_programm file
 
 
-root_dirName = 'C:/'+'corona simulation'
-     
-try:
-    # Create target Directory
-    os.mkdir(root_dirName)
-    print("Directory " , root_dirName ,  " Created ") 
-except FileExistsError:
-    print("Directory " , root_dirName ,  " already exists")
+
     #input("press enter to continue")
 
-simulation_number_start=200
-virus_simulation_paralell(simulation_number_start,0.7)
+simulation_number_start=4
+virus_simulation_paralell(simulation_number_start,0.2)
+
+
+
+"""    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
