@@ -302,7 +302,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     #creating folder to store the pictures
     # Create directory
     
-    dirName = 'C:/Users/james/Desktop/corona simulation/corona simulation '+simulation_number
+    dirName = 'C:/corona simulation/corona simulation '+simulation_number
      
     try:
         # Create target Directory
@@ -446,9 +446,9 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         ax2.yaxis.set_tick_params(labelsize=4)
         
         
-        
+        #'C:/corona simulation/corona simulation '+simulation_number
     
-        figure_name="corona simulation "+simulation_number+"/corona"+format(i,"05d")+".png"
+        figure_name="C:/corona simulation/corona simulation "+simulation_number+"/corona"+format(i,"05d")+".png"
         
     
         
@@ -499,7 +499,7 @@ def virus_simulation_paralell(simulation_number_in,chance_of_isolation):
 
 
 
-
+"""
 
 if __name__ == "__main__": 
     
@@ -528,13 +528,28 @@ if __name__ == "__main__":
         print(" Prosess number {} has finnished".format(k))
         
         
-    
-    
-    
-    
-        
   
     
   
-    # both processes finished 
+    # process finished 
     print("Done!") 
+"""
+
+#creating _root_programm file
+
+
+root_dirName = 'C:/'+'corona simulation'
+     
+try:
+    # Create target Directory
+    os.mkdir(root_dirName)
+    print("Directory " , root_dirName ,  " Created ") 
+except FileExistsError:
+    print("Directory " , root_dirName ,  " already exists")
+    #input("press enter to continue")
+
+simulation_number_start=200
+virus_simulation_paralell(simulation_number_start,0.7)
+
+
+    
