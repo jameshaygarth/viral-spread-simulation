@@ -290,7 +290,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     simulation_number=str(simulation_number)
     max_people_infected=0
     people_max_movment=people_speed*time_step
-    time_after_last_infected=20
+    
     
     #creating folder to store the pictures
     # Create directory
@@ -425,11 +425,12 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
     
     
     
-    
+    """
     itteration_number=[]
     infected_people=[]
     immune_people=[]
     non_immune=[]
+    """
     
     for i in range(0,time_duration,time_step):
         
@@ -443,27 +444,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         if max_people_infected<person.infected:
             max_people_infected=person.infected
         
-        """
-        fig=plt.figure()
-        ax=fig.add_subplot(2,2,1)
-        ax2=fig.add_subplot(2,2,3)
-        ax3=fig.add_subplot(2,2,2)
-        ax4=fig.add_subplot(2,2,4)
         
-        
-        
-        #formatting plot
-        border=6
-        ax.set_xlim([-border,space_size+border])
-        ax.set_ylim([-border,space_size+border])
-        ax.set_xticks([])
-        ax.set_yticks([])
-        
-        rect = patches.Rectangle((500-40,500-40),80,80,linewidth=1,edgecolor='b',facecolor='none')
-        rect2 = patches.Rectangle((0,0),110,110,linewidth=1,edgecolor='r',facecolor='none')
-        ax.add_patch(rect)
-        ax.add_patch(rect2)
-        """
         
         print(i)
         csv_full_entry_string=""
@@ -517,86 +498,13 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
         #print("There are {}, {} are infected and {} are immune.".format(person.people,person.infected,person.immune) )
         
         
-    
+        """
         itteration_number.append(i)
         infected_people.append(person.infected)
         immune_people.append(person.immune)
         non_immune.append(person.people-(person.infected+person.immune))
-        
-        """  
-        ax2.plot(itteration_number,infected_people,"-g")
-        
-        ax3.plot(itteration_number,immune_people,"-g",label='Immune people')
-        ax3.plot(itteration_number,non_immune,"-b",label='Unaffected')
-        ax3.legend(prop={'size': 3})
-        
-        ax.set_title('The simulation',fontsize=5)
-        ax2.set_title('Infected People',fontsize= 5)
-        ax3.set_title('Recovered / Dead and Non Infected',fontsize= 5)
-        ax4.set_title('Information',fontsize= 5)
-        
-        figure_title="This is a simulation of the spread of infection with {} people. ".format(number_of_people)
-        
-        fig.suptitle(figure_title, fontsize=8)
-        
-        #ax4.xaxis.set_tick_params(labelsize=4)
-        ax3.xaxis.set_tick_params(labelsize=4)
-        ax2.xaxis.set_tick_params(labelsize=4)
-        #ax4.yaxis.set_tick_params(labelsize=4)
-        
-        
-        ax4.set_xticks([])
-        ax4.set_yticks([])
-        ax4.set_xlim([0,1])
-        ax4.set_ylim([0,1])
-        
-        max_number_of_infected="Max people infected = {}".format( max_people_infected)
-        un_affected="Unaffected peole = {}".format(person.people-(person.infected+person.immune))
-        
-        number_people_string="Total number of people= {}".format(number_of_people)
-        chance_isolation_string="Chance of isolation when infected= {}".format(chance_of_isolation)
-        chance_shop_strings="Chance of going to the shops per cycle = {}".format(chance_of_shops)
-        infection_radius_string="Radius of infection = {}".format(infection_radius)
-        initialy_infectes_string="Number of people initially infected = {}".format(number_initialy_infected)
-        
-        simulation_paramiters_list=[number_people_string,chance_isolation_string,chance_shop_strings,infection_radius_string,initialy_infectes_string]
-        
-        
-        
-        height_param=0.9
-        
-        ax4.text(0.52,height_param,"Simulation parameters",fontsize=5)
-        height_param-=0.15
-        
-        
-        for list_location in range(len(simulation_paramiters_list)):
-            ax4.text(0.52,height_param, simulation_paramiters_list[list_location],fontsize=3, fontweight='bold')
-            height_param-=0.1
-            
-            
-        
-        ax4.text(0.05,0.9, max_number_of_infected,fontsize=5, fontweight='bold')
-        ax4.text(0.05,0.7,un_affected,fontsize=5)
-        ax4.plot([0.5,0.5],[1,0],"-k")
-        
-        ax3.yaxis.set_tick_params(labelsize=4)
-        ax2.yaxis.set_tick_params(labelsize=4)
-        
-        
-        #'C:/corona simulation/corona simulation '+simulation_number
-    
-        figure_name="C:/corona simulation/corona simulation "+simulation_number+"/corona"+format(i,"05d")+".png"
-        
-    
-        
-        fig.savefig(figure_name,dpi=600)#300
-        fig.clear()
-    
-        plt.close(fig)
-        fig.clf()
-        gc.collect()
-        plt.show()
         """
+        
                 
             #calculating infection
         for k in range(len(people)):
@@ -640,7 +548,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
 
 
 def virus_simulation_paralell(simulation_number_in,chance_of_isolation):
-    virus_simulation(simulation_number=simulation_number_in,number_of_people=2000,chance_of_shops=0.001,chance_of_isolation=chance_of_isolation,number_initialy_infected=10,people_speed=4,infection_radius=4,time_after_last_infected=200,time_step=1,time_duration=10000,space_size=1000)
+    virus_simulation(simulation_number=simulation_number_in,number_of_people=2000,chance_of_shops=0.001,chance_of_isolation=chance_of_isolation,number_initialy_infected=5,people_speed=4,infection_radius=4,time_after_last_infected=200,time_step=1,time_duration=10000,space_size=1000)
     
 
 #start of programm
@@ -657,7 +565,7 @@ if __name__ == "__main__":
     import multiprocessing as mp
     
     
-    simulation_number_start=35
+    simulation_number_start=65
     prosesses_to_be_preformed=[]
     
     for i in range(10):
