@@ -13,10 +13,12 @@ import cv2
 #import numpy as np
 import glob
 #import gc
+import time
 
 
 
 def create_test_plot_images(simulation_number):
+    start=time.time()
 
     overview_df=pd.read_csv("C:\corona simulation\corona simulation "+str(simulation_number)+"\overview_csv_data"+str(simulation_number)+".csv")
     infected_df=overview_df["infected"]
@@ -85,6 +87,10 @@ def create_test_plot_images(simulation_number):
     
     for i in range(len(full_data_df.index)):
         print("{} of {}".format(i,len(full_data_df.index)))
+        
+        if i >= 10:
+            end=time.time()
+            print(end-start)
         
         fig=plt.figure()
     
@@ -256,7 +262,7 @@ def write_video(sim_number):
 
 ##select the simulation to be turned in to a video    
     
-simulation_number=27
+simulation_number=28
 
 create_test_plot_images(simulation_number)
 print("created plots")

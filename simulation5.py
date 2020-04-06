@@ -104,7 +104,7 @@ class person:
             if going_to_the_shops[0]==1:
                 
                 
-                self.travle_to_tescos=self.travle_to_shops(500,500,80,self.x,self.y)
+                self.travle_to_tescos=self.travle_to_shops(self.space_size/2,self.space_size/2,80,self.x,self.y)
                 
                 self.travle_to_the_shops=self.travle_to_tescos.travle_to_the_shops
                 
