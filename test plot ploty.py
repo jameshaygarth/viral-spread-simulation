@@ -8,6 +8,7 @@ Created on Mon Apr  6 15:51:34 2020
 # x and y given as array_like objects
 import plotly.express as px
 from plotly.offline import plot
+import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import os
 import pandas as pd
@@ -22,7 +23,7 @@ if not os.path.exists("images"):
 
 
 
-number_of_people=2000
+number_of_people=10
 nummber_of_itterations=30
 
 for j in range(nummber_of_itterations):
@@ -48,3 +49,30 @@ end=time.time()
 
 print(end-start)
 
+start=time.time()
+
+if not os.path.exists("images1"):
+    os.mkdir("images1")
+
+
+fig=plt.figure()
+    
+ax=fig.add_subplot(1,1,1)
+
+for j in range(nummber_of_itterations):
+    
+    for i in range(number_of_people):
+        x=random.uniform(0,1)
+        y=random.uniform(0,1)
+        ax.plot(x,y,marker=".",color="black",markersize=1)
+        
+    fig.savefig("images1/fig"+str(j)+".png",dpi=300)#300
+    ax.clear()
+        
+    
+    
+    
+    #plot(fig)
+end=time.time()
+
+print(end-start)
