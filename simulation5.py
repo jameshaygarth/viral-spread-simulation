@@ -548,7 +548,7 @@ def virus_simulation(simulation_number=0,number_of_people=1200,chance_of_shops=0
 
 
 def virus_simulation_paralell(simulation_number_in,chance_of_isolation):
-    virus_simulation(simulation_number=simulation_number_in,number_of_people=2000,chance_of_shops=0.001,chance_of_isolation=chance_of_isolation,number_initialy_infected=5,people_speed=4,infection_radius=4,time_after_last_infected=200,time_step=1,time_duration=10000,space_size=1000)
+    virus_simulation(simulation_number=simulation_number_in,number_of_people=8000,chance_of_shops=0.001,chance_of_isolation=chance_of_isolation,number_initialy_infected=5,people_speed=4,infection_radius=4,time_after_last_infected=200,time_step=1,time_duration=10000,space_size=2000)
     
 
 #start of programm
