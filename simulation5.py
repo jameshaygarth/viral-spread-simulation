@@ -139,14 +139,14 @@ class person:
                 elif (115-self.x)<(115-self.y):
                     self.x=115
                     
-        if self.x>1000:
+        if self.x>self.space_size:
             self.x=self.space_size
             
         elif self.x<0:
             self.x=0
             
         
-        if self.y>1000:
+        if self.y>self.space_size:
             self.y=self.space_size
             
         elif self.y<0:
@@ -158,14 +158,14 @@ class person:
     def boundary_check(self,x_start=0,x_finnish=1000,y_start=0,y_finnish=1000):
         """this function checks wether the person is still in there boundary"""
         
-        if self.x>1000:
+        if self.x>self.space_size:
             self.x=self.space_size
             
         elif self.x<0:
             self.x=0
             
         
-        if self.y>1000:
+        if self.y>self.space_size:
             self.y=self.space_size
             
         elif self.y<0:
@@ -565,7 +565,7 @@ if __name__ == "__main__":
     import multiprocessing as mp
     
     
-    simulation_number_start=65
+    simulation_number_start=75
     prosesses_to_be_preformed=[]
     
     for i in range(10):
